@@ -1,0 +1,9 @@
+#!/bin/bash
+
+DEPLOY_DIR=/opt/docker-apps/record-player-server
+
+# Update the server's working copy
+git --work-tree=$DEPLOY_DIR --git-dir=. checkout --force
+
+# Rebuild & restart the containers
+docker-compose --file $DEPLOY_DIR/docker-compose.yml --file $DEPLOY_DIR/docker-compose.prod.yml up --detach --build

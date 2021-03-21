@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+if [ $1 = 'stevedore' ]; then
+  # Send post-receive that triggers build & restart
+  scp hooks/post-receive $2/hooks/
+
+  # Send credentials, etc.
+  scp .prod.env pi@stevedore.local:/opt/docker-apps/record-player-server.env
+fi

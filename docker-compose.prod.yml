@@ -1,0 +1,3 @@
+server:
+  env_file: /opt/docker-apps/record-player-server.env
+  restart: always
