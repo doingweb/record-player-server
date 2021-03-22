@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 import pino from 'pino';
 import { exit } from 'process';
+import HttpServer from './HttpServer';
 import MqttClient from './MqttClient';
+import SpotifyClient from './SpotifyClient';
 
 dotenv.config();
 
@@ -21,10 +23,17 @@ logger.info(`🌲 NODE_ENV: ${process.env.NODE_ENV}`);
 logger.info(`🌲 TS_NODE_DEV: ${process.env.TS_NODE_DEV}`);
 
 (async () => {
-  // TODO: Start the thing!
+  const spotifyClient = new SpotifyClient(
+    process.env.SPOTIFY_CLIENTID || '',
+    process.env.SPOTIFY_CLIENTSECRET || ''
+  );
+  await spotifyClient.init();
+
+  const httpServer = new HttpServer(spotifyClient);
+  httpServer.start();
+
   const mqtt = new MqttClient(mqttUrl);
   mqtt.listen(mqttTopic, async (message) => {
-    // TODO: Do actual things
-    logger.info(`Message! ${message}`);
+    await spotifyClient.play(message);
   });
 })();

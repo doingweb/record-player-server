@@ -1,5 +1,6 @@
 import * as mqtt from 'mqtt';
 import pino from 'pino';
+import { abbr } from './util';
 
 const logger = pino({ name: '🦟 MqttClient' });
 
@@ -31,7 +32,7 @@ export default class MqttClient {
     this.client.on('message', (receivedTopic, payload) => {
       const message = payload.toString('utf-8');
 
-      logger.info(`Received message on ${receivedTopic}: "${message}"`);
+      logger.info(`Received message on ${receivedTopic}: "${abbr(message)}"`);
 
       handler(message);
     });

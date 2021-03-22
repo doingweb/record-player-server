@@ -14,3 +14,7 @@ services:
     env_file: ./.env
     environment:
       - MQTT_URL=mqtt://mqtt
+    ports:
+      - 8001:8001
+    volumes:
+      - ./.data:/opt/record-player-server/.data
