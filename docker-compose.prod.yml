@@ -1,3 +1,4 @@
-server:
-  env_file: /opt/docker-apps/record-player-server.env
-  restart: always
+version: "3.3"
+services:
+  server:
+    restart: always

@@ -1,2 +1,5 @@
-server:
-  build: .
+version: "3.3"
+services:
+  server:
+    build: .
+    env_file: ./.env

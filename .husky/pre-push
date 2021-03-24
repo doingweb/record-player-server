@@ -6,5 +6,5 @@ if [ $1 = 'stevedore' ]; then
   scp hooks/post-receive $2/hooks/
 
   # Send credentials, etc.
-  scp .prod.env pi@stevedore.local:/opt/docker-apps/record-player-server.env
+  scp .prod.env pi@stevedore.local:/opt/docker-apps/record-player-server/.env
 fi
