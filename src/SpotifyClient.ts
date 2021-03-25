@@ -71,6 +71,11 @@ export default class SpotifyClient {
 
     const contextUri = `spotify:${resourceType}:${id}`;
 
+    if (await this.isAlreadyPlaying(contextUri)) {
+      logger.info(`${contextUri} is already playing`);
+      return;
+    }
+
     logger.info(`📻 Playing '${contextUri}'`);
 
     try {
@@ -82,6 +87,19 @@ export default class SpotifyClient {
       logger.info(`Success! [HTTP ${response.statusCode}]`);
     } catch (error) {
       logger.error(error, 'Cannot play: Spotify API error');
+    }
+  }
+
+  async isAlreadyPlaying(contextUri: string): Promise<boolean> {
+    try {
+      const {
+        body: { context, is_playing },
+      } = await this.spotifyApi.getMyCurrentPlayingTrack();
+
+      return is_playing && context?.uri === contextUri;
+    } catch (error) {
+      logger.error(error);
+      return false;
     }
   }
 
