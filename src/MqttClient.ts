@@ -32,7 +32,7 @@ export default class MqttClient {
     this.client.on('message', (receivedTopic, payload) => {
       const message = payload.toString('utf-8');
 
-      logger.info(`Received message on ${receivedTopic}: "${abbr(message)}"`);
+      logger.info(`Received message on ${receivedTopic}: "${message}"`);
 
       handler(message);
     });
