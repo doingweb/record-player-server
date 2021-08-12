@@ -79,6 +79,14 @@ export default class SpotifyClient {
     logger.info(`📻 Playing '${contextUri}'`);
 
     try {
+      if (resourceType === 'playlist') {
+        logger.info('Turning on shuffle, since this is a playlist');
+        this.spotifyApi.setShuffle(true, { device_id: process.env.SPOTIFY_DEVICE_ID });
+      } else {
+        logger.info('Turning off shuffle, since this is not a playlist');
+        this.spotifyApi.setShuffle(false, { device_id: process.env.SPOTIFY_DEVICE_ID });
+      }
+
       const response = await this.spotifyApi.play({
         context_uri: contextUri,
         device_id: process.env.SPOTIFY_DEVICE_ID,
